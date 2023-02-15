@@ -22,6 +22,8 @@ export type Options = {
     exportCore?: boolean;
     exportServices?: boolean;
     exportModels?: boolean;
+    exportKotlinModels?: boolean;
+    kotlinPackageName?: string;
     exportSchemas?: boolean;
     indent?: Indent;
     postfixServices?: string;
@@ -43,6 +45,8 @@ export type Options = {
  * @param exportCore Generate core client classes
  * @param exportServices Generate services
  * @param exportModels Generate models
+ * @param exportKotlinModels Generate models for Kotlin
+ * @param kotlinPackageName Kotlin package name
  * @param exportSchemas Generate schemas
  * @param indent Indentation options (4, 2 or tab)
  * @param postfixServices Service name postfix
@@ -60,11 +64,13 @@ export const generate = async ({
     exportCore = true,
     exportServices = true,
     exportModels = true,
+    exportKotlinModels = false,
     exportSchemas = false,
     indent = Indent.SPACE_4,
     postfixServices = 'Service',
     postfixModels = '',
     request,
+    kotlinPackageName = '',
     write = true,
 }: Options): Promise<void> => {
     const openApi = isString(input) ? await getOpenApiSpec(input) : input;
@@ -90,6 +96,8 @@ export const generate = async ({
                 exportCore,
                 exportServices,
                 exportModels,
+                exportKotlinModels,
+                kotlinPackageName,
                 exportSchemas,
                 indent,
                 postfixServices,
@@ -114,6 +122,8 @@ export const generate = async ({
                 exportCore,
                 exportServices,
                 exportModels,
+                exportKotlinModels,
+                kotlinPackageName,
                 exportSchemas,
                 indent,
                 postfixServices,

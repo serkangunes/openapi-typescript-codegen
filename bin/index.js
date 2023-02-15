@@ -19,6 +19,12 @@ const params = program
     .option('--exportCore <value>', 'Write core files to disk', true)
     .option('--exportServices <value>', 'Write services to disk', true)
     .option('--exportModels <value>', 'Write models to disk', true)
+    .option(
+        '--exportKotlinModels <value>',
+        'Write kotlin models to disk. If this option is set. Only Kotlin models will be generated.',
+        false
+    )
+    .option('--kotlinPackageName <value>', 'Name of the package for the generated Kotlin models.', 'com.models')
     .option('--exportSchemas <value>', 'Write schemas to disk', false)
     .option('--indent <value>', 'Indentation options [4, 2, tabs]', '4')
     .option('--postfix <value>', 'Deprecated: Use --postfixServices instead. Service name postfix', 'Service')
@@ -28,7 +34,7 @@ const params = program
     .parse(process.argv)
     .opts();
 
-const OpenAPI = require(path.resolve(__dirname, '../dist/index.js'));
+const OpenAPI = require(path.resolve(__dirname, './generator.js'));
 
 if (OpenAPI) {
     OpenAPI.generate({
@@ -41,6 +47,8 @@ if (OpenAPI) {
         exportCore: JSON.parse(params.exportCore) === true,
         exportServices: JSON.parse(params.exportServices) === true,
         exportModels: JSON.parse(params.exportModels) === true,
+        exportKotlinModels: JSON.parse(params.exportModels) === true,
+        kotlinPackageName: params.kotlinPackageName,
         exportSchemas: JSON.parse(params.exportSchemas) === true,
         indent: params.indent,
         postfixServices: params.postfixServices ?? params.postfix,

@@ -1,0 +1,19 @@
+{{#equals export 'interface'}}
+{{>typeKotlinEnum}}
+{{else equals export 'reference'}}
+{{>typeKotlinReference}}
+{{else equals export 'enum'}}
+{{>typeKotlinEnum}}
+{{else equals export 'array'}}
+{{>typeKotlinArray}}
+{{else equals export 'dictionary'}}
+{{>typeKotlinDictionary}}
+{{else equals export 'one-of'}}
+typeUnion {{>typeUnion}}
+{{else equals export 'any-of'}}
+typeUnion {{>typeUnion}}
+{{else equals export 'all-of'}}
+typeIntersection {{>typeIntersection}}
+{{else}}
+{{>typeKotlinReference}}
+{{/equals}}

@@ -1,0 +1,12 @@
+{{~#equals base 'string'}}
+{{~#equals format 'uuid'}}java.util.UUID
+{{~else}}String{{/equals~}}
+{{~else equals base 'number'}}
+{{~#equals format 'integer'}}Int
+{{~else equals format 'float'}}Float
+{{~else equals format 'double'}}Double
+{{~else}}Long
+{{/equals~}}
+{{~else equals base 'boolean'}}Boolean
+{{~else}}{{base}}
+{{/equals~}}

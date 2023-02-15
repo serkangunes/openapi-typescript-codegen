@@ -21,6 +21,7 @@ describe('writeClient', () => {
             client: () => 'client',
             exports: {
                 model: () => 'model',
+                kotlinModel: () => 'kotlinModel',
                 schema: () => 'schema',
                 service: () => 'service',
             },
@@ -46,6 +47,8 @@ describe('writeClient', () => {
             true,
             true,
             true,
+            false,
+            '',
             true,
             Indent.SPACE_4,
             'Service',

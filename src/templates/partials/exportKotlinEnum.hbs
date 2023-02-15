@@ -1,0 +1,20 @@
+{{#ifdef description deprecated}}
+/**
+{{#if description}}
+ * {{{escapeComment description}}}
+{{/if}}
+{{#if deprecated}}
+ * @deprecated
+{{/if}}
+ */
+{{/ifdef}}
+enum class {{{name}}} {
+	{{#each enum}}
+	{{#if description}}
+	/**
+	 * {{{escapeComment description}}}
+	 */
+	{{/if}}
+	{{{name}}},
+	{{/each}}
+}

@@ -10,6 +10,7 @@ import type { Templates } from './registerHandlebarTemplates';
 import { writeClientClass } from './writeClientClass';
 import { writeClientCore } from './writeClientCore';
 import { writeClientIndex } from './writeClientIndex';
+import { writeClientKotlinModels } from './writeClientKotlinModels';
 import { writeClientModels } from './writeClientModels';
 import { writeClientSchemas } from './writeClientSchemas';
 import { writeClientServices } from './writeClientServices';
@@ -43,6 +44,8 @@ export const writeClient = async (
     exportCore: boolean,
     exportServices: boolean,
     exportModels: boolean,
+    exportKotlinModels: boolean,
+    kotlinPackageName: string,
     exportSchemas: boolean,
     indent: Indent,
     postfixServices: string,
@@ -51,10 +54,42 @@ export const writeClient = async (
     request?: string
 ): Promise<void> => {
     const outputPath = resolve(process.cwd(), output);
+
+    await rmdir(outputPath);
+    await mkdir(outputPath);
+
     const outputPathCore = resolve(outputPath, 'core');
     const outputPathModels = resolve(outputPath, 'models');
     const outputPathSchemas = resolve(outputPath, 'schemas');
     const outputPathServices = resolve(outputPath, 'services');
+
+    if (exportKotlinModels) {
+        console.log('Exporting Kotlin models');
+
+        const kotlinPackageNameSplit = kotlinPackageName.split('.');
+
+        const outputPathSrc = resolve(outputPath, 'src');
+        const outputPathMain = resolve(outputPathSrc, 'main');
+        const outputPathKotlin = resolve(outputPathMain, 'kotlin');
+
+        let output = outputPathKotlin;
+        for (const dir of kotlinPackageNameSplit) {
+            output = resolve(output, dir);
+        }
+
+        await rmdir(output);
+        await mkdir(output);
+        await writeClientKotlinModels(
+            client.models,
+            templates,
+            output,
+            httpClient,
+            useUnionTypes,
+            indent,
+            kotlinPackageName
+        );
+        return;
+    }
 
     if (!isSubDirectory(process.cwd(), output)) {
         throw new Error(`Output folder is not a subdirectory of the current working directory`);

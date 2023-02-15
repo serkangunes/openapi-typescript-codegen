@@ -23,6 +23,7 @@ describe('writeClientCore', () => {
             client: () => 'client',
             exports: {
                 model: () => 'model',
+                kotlinModel: () => 'kotlinModel',
                 schema: () => 'schema',
                 service: () => 'service',
             },

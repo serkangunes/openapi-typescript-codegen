@@ -31,14 +31,14 @@
             "email": "info@madebyferdi.com"
         }
     ],
-    "main": "dist/index.js",
+    "main": "bin/generator.js",
     "types": "types/index.d.ts",
     "bin": {
         "openapi": "bin/index.js"
     },
     "files": [
         "bin/index.js",
-        "dist/index.js",
+        "bin/generator.js",
         "types/index.d.ts"
     ],
     "scripts": {
@@ -120,7 +120,7 @@
         "typescript": "4.8.4",
         "zone.js": "0.11.8"
     },
-    "overrides" : {
+    "overrides": {
         "rollup": "3.2.3"
     }
 }

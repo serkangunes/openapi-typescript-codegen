@@ -1,0 +1,9 @@
+package {{kotlinPackageName}}
+
+import kotlin.collections.*
+
+{{#equals export 'enum'}}
+{{>exportKotlinEnum}}
+{{else}}
+{{>exportKotlinClass}}
+{{/equals}}

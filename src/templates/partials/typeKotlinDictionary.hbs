@@ -1,0 +1,5 @@
+{{~#if link~}}
+Map<String, {{>typeKotlin link}}>{{>isNullable}}
+{{~else~}}
+Map<String, {{>baseKotlin}}>{{>isNullable}}
+{{~/if~}}

@@ -53,13 +53,17 @@ import xhrGetResponseHeader from '../templates/core/xhr/getResponseHeader.hbs';
 import xhrRequest from '../templates/core/xhr/request.hbs';
 import xhrSendRequest from '../templates/core/xhr/sendRequest.hbs';
 import templateExportModel from '../templates/exportModel.hbs';
+import templateExportKotlinModel from '../templates/exportKotlinModel.hbs';
 import templateExportSchema from '../templates/exportSchema.hbs';
 import templateExportService from '../templates/exportService.hbs';
 import templateIndex from '../templates/index.hbs';
 import partialBase from '../templates/partials/base.hbs';
+import partialBaseKotlin from '../templates/partials/baseKotlin.hbs';
 import partialExportComposition from '../templates/partials/exportComposition.hbs';
 import partialExportEnum from '../templates/partials/exportEnum.hbs';
+import partialExportKotlinEnum from '../templates/partials/exportKotlinEnum.hbs';
 import partialExportInterface from '../templates/partials/exportInterface.hbs';
+import partialExportKotlinClass from '../templates/partials/exportKotlinClass.hbs';
 import partialExportType from '../templates/partials/exportType.hbs';
 import partialHeader from '../templates/partials/header.hbs';
 import partialIsNullable from '../templates/partials/isNullable.hbs';
@@ -75,13 +79,18 @@ import partialSchemaEnum from '../templates/partials/schemaEnum.hbs';
 import partialSchemaGeneric from '../templates/partials/schemaGeneric.hbs';
 import partialSchemaInterface from '../templates/partials/schemaInterface.hbs';
 import partialType from '../templates/partials/type.hbs';
+import partialTypeKotlin from '../templates/partials/typeKotlin.hbs';
 import partialTypeArray from '../templates/partials/typeArray.hbs';
 import partialTypeDictionary from '../templates/partials/typeDictionary.hbs';
+import partialTypeKotlinDictionary from '../templates/partials/typeKotlinDictionary.hbs';
+import partialTypeKotlinArray from '../templates/partials/typeKotlinArray.hbs';
 import partialTypeEnum from '../templates/partials/typeEnum.hbs';
+import partialTypeKotlinEnum from '../templates/partials/typeKotlinEnum.hbs';
 import partialTypeGeneric from '../templates/partials/typeGeneric.hbs';
 import partialTypeInterface from '../templates/partials/typeInterface.hbs';
 import partialTypeIntersection from '../templates/partials/typeIntersection.hbs';
 import partialTypeReference from '../templates/partials/typeReference.hbs';
+import partialTypeKotlinReference from '../templates/partials/typeKotlinReference.hbs';
 import partialTypeUnion from '../templates/partials/typeUnion.hbs';
 import { registerHandlebarHelpers } from './registerHandlebarHelpers';
 
@@ -90,6 +99,7 @@ export interface Templates {
     client: Handlebars.TemplateDelegate;
     exports: {
         model: Handlebars.TemplateDelegate;
+        kotlinModel: Handlebars.TemplateDelegate;
         schema: Handlebars.TemplateDelegate;
         service: Handlebars.TemplateDelegate;
     };
@@ -122,6 +132,7 @@ export const registerHandlebarTemplates = (root: {
         client: Handlebars.template(templateClient),
         exports: {
             model: Handlebars.template(templateExportModel),
+            kotlinModel: Handlebars.template(templateExportKotlinModel),
             schema: Handlebars.template(templateExportSchema),
             service: Handlebars.template(templateExportService),
         },
@@ -139,7 +150,9 @@ export const registerHandlebarTemplates = (root: {
 
     // Partials for the generations of the models, services, etc.
     Handlebars.registerPartial('exportEnum', Handlebars.template(partialExportEnum));
+    Handlebars.registerPartial('exportKotlinEnum', Handlebars.template(partialExportKotlinEnum));
     Handlebars.registerPartial('exportInterface', Handlebars.template(partialExportInterface));
+    Handlebars.registerPartial('exportKotlinClass', Handlebars.template(partialExportKotlinClass));
     Handlebars.registerPartial('exportComposition', Handlebars.template(partialExportComposition));
     Handlebars.registerPartial('exportType', Handlebars.template(partialExportType));
     Handlebars.registerPartial('header', Handlebars.template(partialHeader));
@@ -156,15 +169,21 @@ export const registerHandlebarTemplates = (root: {
     Handlebars.registerPartial('schemaInterface', Handlebars.template(partialSchemaInterface));
     Handlebars.registerPartial('schemaComposition', Handlebars.template(partialSchemaComposition));
     Handlebars.registerPartial('type', Handlebars.template(partialType));
+    Handlebars.registerPartial('typeKotlin', Handlebars.template(partialTypeKotlin));
     Handlebars.registerPartial('typeArray', Handlebars.template(partialTypeArray));
+    Handlebars.registerPartial('typeKotlinArray', Handlebars.template(partialTypeKotlinArray));
     Handlebars.registerPartial('typeDictionary', Handlebars.template(partialTypeDictionary));
+    Handlebars.registerPartial('typeKotlinDictionary', Handlebars.template(partialTypeKotlinDictionary));
     Handlebars.registerPartial('typeEnum', Handlebars.template(partialTypeEnum));
+    Handlebars.registerPartial('typeKotlinEnum', Handlebars.template(partialTypeKotlinEnum));
     Handlebars.registerPartial('typeGeneric', Handlebars.template(partialTypeGeneric));
     Handlebars.registerPartial('typeInterface', Handlebars.template(partialTypeInterface));
     Handlebars.registerPartial('typeReference', Handlebars.template(partialTypeReference));
+    Handlebars.registerPartial('typeKotlinReference', Handlebars.template(partialTypeKotlinReference));
     Handlebars.registerPartial('typeUnion', Handlebars.template(partialTypeUnion));
     Handlebars.registerPartial('typeIntersection', Handlebars.template(partialTypeIntersection));
     Handlebars.registerPartial('base', Handlebars.template(partialBase));
+    Handlebars.registerPartial('baseKotlin', Handlebars.template(partialBaseKotlin));
 
     // Generic functions used in 'request' file @see src/templates/core/request.hbs for more info
     Handlebars.registerPartial('functions/catchErrorCodes', Handlebars.template(functionCatchErrorCodes));

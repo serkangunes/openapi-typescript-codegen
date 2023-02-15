@@ -68,7 +68,7 @@ export default {
     input: './src/index.ts',
     output: {
         exports: 'named',
-        file: './dist/index.js',
+        file: './bin/generator.js',
         format: 'cjs',
     },
     external: ['camelcase', 'commander', 'fs-extra', 'handlebars', 'json-schema-ref-parser'],

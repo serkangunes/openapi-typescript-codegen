@@ -1,0 +1,76 @@
+{{#ifdef description deprecated}}
+/**
+{{#if description}}
+ * {{{escapeComment description}}}
+{{/if}}
+{{#if deprecated}}
+ * @deprecated
+{{/if}}
+ */
+{{/ifdef}}
+data class {{{name}}} (
+	{{#each properties}}
+	{{#ifdef description deprecated}}
+	/**
+	{{#if description}}
+	 * {{{escapeComment description}}}
+	{{/if}}
+	{{#if deprecated}}
+	 * @deprecated
+	{{/if}}
+	 */
+	{{/ifdef}}
+	var {{{name}}}: {{>typeKotlin parent=../name}}{{>isRequired}}{{#unless isRequired}} = null{{/unless}},
+	{{/each}}
+)
+{{#if enums}}
+{{#unless @root.useUnionTypes}}
+
+{{#each enums}}
+{{#if description}}
+/**
+* {{{escapeComment description}}}
+*/
+{{/if}}
+enum class {{../name}}_{{{name}}} {
+{{#each enum}}
+{{{name}}},
+{{/each}}
+}
+{{~/each~}}
+{{~/unless~}}
+{{~/if~}}
+
+{{#if properties}}
+{{#each properties}}
+{{#if properties}}
+
+{{#ifdef description deprecated}}
+/**
+{{#if description}}
+* {{{escapeComment description}}}
+{{/if}}
+{{#if deprecated}}
+* @deprecated
+{{/if}}
+*/
+{{/ifdef}}
+data class {{../name}}_{{{name}}} (
+	{{#each properties}}
+	{{#ifdef description deprecated}}
+	/**
+	{{#if description}}
+	* {{{escapeComment description}}}
+	{{/if}}
+	{{#if deprecated}}
+	* @deprecated
+	{{/if}}
+	*/
+	{{/ifdef}}
+	var {{{name}}}: {{>typeKotlin parent=../name}}{{>isRequired}}{{#unless isRequired}} = null{{/unless}},
+	{{/each}}
+)
+
+{{~/if~}}
+{{~/each~}}
+{{~/if~}}
