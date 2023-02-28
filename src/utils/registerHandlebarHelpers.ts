@@ -108,4 +108,9 @@ export const registerHandlebarHelpers = (root: {
     Handlebars.registerHelper('json', function (this: any): string {
         return JSON.stringify(this, null, 4);
     });
+
+    console.log('registerHandlebarHelpers');
+    Handlebars.registerHelper('rawValue', function (value: string): string {
+        return value.replace(RegExp("'", 'g'), '');
+    });
 };

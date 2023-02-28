@@ -4,6 +4,8 @@ import kotlin.collections.*
 
 {{#equals export 'enum'}}
 {{>exportKotlinEnum}}
+{{else equals export 'all-of'}}
+{{>exportKotlinClassWithSuper}}
 {{else}}
 {{>exportKotlinClass}}
 {{/equals}}

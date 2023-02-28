@@ -8,7 +8,9 @@
 {{/if}}
  */
 {{/ifdef}}
-{{#if referencedAsAllOf}}open{{else}}data{{/if}} class {{{name}}} (
+data class {{{name}}} (
+	{{#each properties}}
+	{{#equals name "properties"}}
 	{{#each properties}}
 	{{#ifdef description deprecated}}
 	/**
@@ -20,9 +22,11 @@
 	{{/if}}
 	 */
 	{{/ifdef}}
-	{{#if ../referencedAsAllOf}}open {{/if}}var {{{name}}}: {{>typeKotlin parent=../name}}{{>isRequired}}{{#unless isRequired}} = null{{/unless}},
+	var {{{name}}}: {{>typeKotlin parent=../name}}{{>isRequired}}{{#unless isRequired}} = null{{/unless}},
 	{{/each}}
-)
+	{{/equals}}
+	{{/each}}
+): {{#each imports}}{{this}}(){{/each}}
 {{#if enums}}
 {{#unless @root.useUnionTypes}}
 
@@ -41,9 +45,11 @@ enum class {{../name}}_{{{name}}} {
 {{~/unless~}}
 {{~/if~}}
 
+
 {{#if properties}}
 {{#each properties}}
 {{#if properties}}
+{{#notEquals name "properties"}}
 
 {{#ifdef description deprecated}}
 /**
@@ -57,6 +63,8 @@ enum class {{../name}}_{{{name}}} {
 {{/ifdef}}
 data class {{../name}}_{{{name}}} (
 	{{#each properties}}
+	{{#equals name "properties"}}
+	{{#each properties}}
 	{{#ifdef description deprecated}}
 	/**
 	{{#if description}}
@@ -69,8 +77,11 @@ data class {{../name}}_{{{name}}} (
 	{{/ifdef}}
 	var {{{name}}}: {{>typeKotlin parent=../name}}{{>isRequired}}{{#unless isRequired}} = null{{/unless}},
 	{{/each}}
+	{{/equals}}
+	{{/each}}
 )
 
+{{/notEquals}}
 {{~/if~}}
 {{~/each~}}
 {{~/if~}}
