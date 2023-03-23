@@ -9,9 +9,9 @@
 {{else equals export 'dictionary'}}
 {{>typeKotlinDictionary}}
 {{else equals export 'one-of'}}
-typeUnion {{>typeUnion}}
+typeUnionOneOf {{>typeKotlinUnion}}
 {{else equals export 'any-of'}}
-typeUnion {{>typeUnion}}
+{{>typeKotlinUnion}}
 {{else equals export 'all-of'}}
 typeIntersection {{>typeIntersection}}
 {{else}}

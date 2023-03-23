@@ -56,6 +56,25 @@ export const registerHandlebarHelpers = (root: {
     );
 
     Handlebars.registerHelper(
+        'kotlinUnion',
+        function (this: any, properties: Model[], parent: string | undefined, options: Handlebars.HelperOptions) {
+            const type = Handlebars.partials['typeKotlin'];
+            const types = properties.map(property => type({ ...root, ...property, parent }));
+            const uniqueTypes = types.filter(unique);
+            let uniqueTypesString = uniqueTypes.join(' | ');
+            if (uniqueTypes.includes('null') && uniqueTypes.length === 2) {
+                uniqueTypesString = `${uniqueTypes.filter(type => type !== 'null')[0]}?`;
+            } else {
+                uniqueTypesString = uniqueTypes.join(' | ');
+                if (uniqueTypes.length > 1) {
+                    uniqueTypesString = `(${uniqueTypesString})`;
+                }
+            }
+            return options.fn(uniqueTypesString);
+        }
+    );
+
+    Handlebars.registerHelper(
         'intersection',
         function (this: any, properties: Model[], parent: string | undefined, options: Handlebars.HelperOptions) {
             const type = Handlebars.partials['type'];

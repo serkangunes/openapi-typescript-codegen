@@ -34,6 +34,7 @@ const handlebarsPlugin = () => ({
                     notEquals: true,
                     containsSpaces: true,
                     union: true,
+                    kotlinUnion: true,
                     intersection: true,
                     enumerator: true,
                     escapeComment: true,

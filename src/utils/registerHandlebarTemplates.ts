@@ -93,6 +93,7 @@ import partialTypeKotlinEnum from '../templates/partials/typeKotlinEnum.hbs';
 import partialTypeKotlinReference from '../templates/partials/typeKotlinReference.hbs';
 import partialTypeReference from '../templates/partials/typeReference.hbs';
 import partialTypeUnion from '../templates/partials/typeUnion.hbs';
+import partialTypeKotlinUnion from '../templates/partials/typeKotlinUnion.hbs';
 import { registerHandlebarHelpers } from './registerHandlebarHelpers';
 
 export interface Templates {
@@ -183,6 +184,7 @@ export const registerHandlebarTemplates = (root: {
     Handlebars.registerPartial('typeReference', Handlebars.template(partialTypeReference));
     Handlebars.registerPartial('typeKotlinReference', Handlebars.template(partialTypeKotlinReference));
     Handlebars.registerPartial('typeUnion', Handlebars.template(partialTypeUnion));
+    Handlebars.registerPartial('typeKotlinUnion', Handlebars.template(partialTypeKotlinUnion));
     Handlebars.registerPartial('typeIntersection', Handlebars.template(partialTypeIntersection));
     Handlebars.registerPartial('base', Handlebars.template(partialBase));
     Handlebars.registerPartial('baseKotlin', Handlebars.template(partialBaseKotlin));

@@ -16,6 +16,7 @@ describe('registerHandlebarHelpers', () => {
         expect(helpers).toContain('notEquals');
         expect(helpers).toContain('containsSpaces');
         expect(helpers).toContain('union');
+        expect(helpers).toContain('kotlinUnion');
         expect(helpers).toContain('intersection');
         expect(helpers).toContain('enumerator');
         expect(helpers).toContain('escapeComment');
