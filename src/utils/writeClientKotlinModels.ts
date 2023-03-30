@@ -1,3 +1,4 @@
+import { writeFileSync } from 'fs';
 import { resolve } from 'path';
 
 import type { Model } from '../client/interfaces/Model';
@@ -43,6 +44,10 @@ export const writeClientKotlinModels = async (
     }
 
     for (const model of models) {
+        const realProps = getProperties(models, model);
+        model.properties = realProps;
+        model.export = 'interface';
+
         const file = resolve(outputPath, `${model.name}.kt`);
         const items = model.properties.length + model.enum.length + model.enums.length;
 
@@ -60,3 +65,20 @@ export const writeClientKotlinModels = async (
     }
     // console.log(']');
 };
+
+function getProperties(models: Model[], model: Model) {
+    const realProps: Model[] = [];
+    model.properties.forEach(prop => {
+        if (prop.name === '' && prop.properties.length === 0 && prop.type !== 'any') {
+            const inheritedType = models.find(m => m.name === prop.type);
+            if (inheritedType) {
+                realProps.push(...getProperties(models, inheritedType));
+            }
+        } else if (prop.name === '' && prop.properties.length > 0 && prop.type === 'any') {
+            realProps.push(...prop.properties);
+        } else {
+            realProps.push(prop);
+        }
+    });
+    return realProps;
+}
