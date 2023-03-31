@@ -29,8 +29,6 @@ export const writeClientKotlinModels = async (
 ): Promise<void> => {
     for (const model of models) {
         if (model.export === 'all-of') {
-            model.properties.forEach(prop => {});
-
             const { realProps, realEnums, exportType } = getProperties(models, model);
 
             model.properties = realProps;
