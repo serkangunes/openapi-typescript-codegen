@@ -1,5 +1,5 @@
-import { writeFileSync } from 'fs';
 import { resolve } from 'path';
+import { Enum } from '../client/interfaces/Enum';
 
 import type { Model } from '../client/interfaces/Model';
 import type { HttpClient } from '../HttpClient';
@@ -27,26 +27,16 @@ export const writeClientKotlinModels = async (
     indent: Indent,
     kotlinPackageName: string
 ): Promise<void> => {
-    // console.log('[');
-
-    const allOff = models.filter(model => model.properties.some(prop => prop.name === ''));
-
-    if (allOff.length > 0) {
-        for (const sub of allOff) {
-            const prop = sub.properties.find(prop => prop.name === '');
-            if (prop) {
-                const model = models.find(model => model.name === prop.type);
-                if (model) {
-                    model.referencedAsAllOf = true;
-                }
-            }
-        }
-    }
-
     for (const model of models) {
-        const realProps = getProperties(models, model);
-        model.properties = realProps;
-        model.export = 'interface';
+        if (model.export === 'all-of') {
+            model.properties.forEach(prop => {});
+
+            const { realProps, realEnums, exportType } = getProperties(models, model);
+
+            model.properties = realProps;
+            model.enum = realEnums;
+            model.export = exportType;
+        }
 
         const file = resolve(outputPath, `${model.name}.kt`);
         const items = model.properties.length + model.enum.length + model.enums.length;
@@ -55,30 +45,39 @@ export const writeClientKotlinModels = async (
             continue;
         }
 
-        // console.log(JSON.stringify(model, null, 2), ',');
-
         const templateResult = templates.exports.kotlinModel({
             ...model,
             kotlinPackageName,
         });
         await writeFile(file, i(f(templateResult), indent));
     }
-    // console.log(']');
 };
 
 function getProperties(models: Model[], model: Model) {
     const realProps: Model[] = [];
+    const realEnums: Enum[] = model.enum;
+    let exportType = model.export;
     model.properties.forEach(prop => {
-        if (prop.name === '' && prop.properties.length === 0 && prop.type !== 'any') {
+        if (prop.name === '' && prop.export === 'reference') {
             const inheritedType = models.find(m => m.name === prop.type);
             if (inheritedType) {
-                realProps.push(...getProperties(models, inheritedType));
+                const { realProps: inheritedProps, realEnums: inheritedEnums } = getProperties(models, inheritedType);
+                realProps.push(...inheritedProps);
+                realEnums.push(...inheritedEnums);
             }
-        } else if (prop.name === '' && prop.properties.length > 0 && prop.type === 'any') {
+        } else if (prop.export === 'all-of') {
+            const { realProps: inheritedProps, realEnums: inheritedEnums } = getProperties(models, prop);
+            realProps.push(...inheritedProps);
+            realEnums.push(...inheritedEnums);
+        } else if (prop.name === '' && prop.properties.length > 0) {
+            exportType = prop.export;
             realProps.push(...prop.properties);
+        } else if (prop.export === 'enum' && prop.enum.length > 0) {
+            exportType = prop.export;
+            realEnums.push(...prop.enum);
         } else {
             realProps.push(prop);
         }
     });
-    return realProps;
+    return { realProps, realEnums, exportType };
 }
